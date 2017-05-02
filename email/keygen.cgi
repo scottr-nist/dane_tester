@@ -26,6 +26,18 @@ os.environ['GNUPGHOME'] = '/var/www/gpg'
 openssl_exe = '/usr/bin/openssl'
 gpg_exe = '/usr/bin/gpg'
 
+html_escape_table = {
+    "&": "&amp;",
+    '"': "&quot;",
+    "'": "&apos;",
+    ">": "&gt;",
+    "<": "&lt;",
+    }
+    
+def def html_escape(text):
+    """Produce entities within text."""
+    return "".join(html_escape_table.get(c,c) for c in text)
+
 def hexdump(s, separator=''):
     if type(s)==str:
         return separator.join("{:02X}".format(ord(x)) for x in s)
@@ -142,7 +154,9 @@ if __name__=="__main__":
         usage = form["usage"].value if "usage" in form else "XXX"
         selector = form["selector"].value if "selector" in form else "XXX"
         match = form["match"].value if "match" in form else "XXX"
-        email = form["email"].value if "email" in form else "XXX"
+        email = html_escape(form["email"].value) if "email" in form else "XXX"
+        if not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)",email):
+            email = "XXX"
         cert = form['cert'].file.read()
         res = gen_smimea_rr(usage,selector,match,email,cert)
 

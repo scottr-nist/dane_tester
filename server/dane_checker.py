@@ -943,9 +943,9 @@ def dns_query(qname,request_type=dns.rdatatype.A):
                                            rr=rr, data=rr.target, key=rr.target))
             if rr.rdtype == dns.rdatatype.MX == request_type:
                 ret.append( DaneTestResult(passed=SUCCESS, 
-                                           what='DNS MX lookup {} = {} {}'.format(qname, rr.preference, rr.exchange), 
+                                           what='DNS MX lookup {} = {} {}'.format(qname, rr.preference, rr.exchange.to_text()), 
                                            response=response,
-                                           rr=rr, data=rr.exchange,  key=rr.preference))
+                                           rr=rr, data=rr.exchange.to_text(),  key=rr.preference))
             if rr.rdtype == dns.rdatatype.TLSA == request_type:
                 ret.append( DaneTestResult(passed=SUCCESS, what='DNS TLSA lookup {} = {}'.format(qname, tlsa_rr_str(rr)), 
                                            response=response,
@@ -1169,7 +1169,7 @@ def tlsa_smtp_verify(destination_hostname):
     first = True
     mx_rets = []
     smtp_tlsa_status = None
-    for hostname in [h.rr.exchange for h in mx_data]:
+    for hostname in [h.rr.exchange.to_text() for h in mx_data]:
         this_ret       = tlsa_smtp_host_verify(hostname,destination_hostname,delivery_tlsa_records,'MX')
         all_tests_pass = True if count_passed(this_ret,val=True)>0 and count_passed(this_ret,val=False)==0 else False
         if first:

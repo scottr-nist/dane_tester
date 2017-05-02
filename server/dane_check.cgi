@@ -40,6 +40,18 @@ assert sys.version > '3'
 # http://stackoverflow.com/questions/14860034/python-cgi-utf-8-doesnt-work
 import codecs; sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
+#check to see if input is valid DNS name
+def isValidDomain(hostname):
+   if hostname[-1] == ".":
+         # strip exactly one dot from the right, if present
+      hostname = hostname[:-1]
+   if len(hostname) > 253:
+      return False 
+
+   labels = hostname.split(".")
+   allowed = re.compile(r"(?!-)[a-z0-9-]{1,63}(?<!-)$", re.IGNORECASE)
+   return all(allowed.match(label) for label in labels)
+
 if __name__=="__main__":
    cgitb.enable()
    template = open("dane_check_template.html","r",encoding='utf8').read()
@@ -56,7 +68,8 @@ if __name__=="__main__":
    form = cgi.FieldStorage()
    host = None
    if "host" in form:
-      host = form['host'].value
+      if (isValidDomain(form['host'].value)):
+         host = form['host'].value
       
    m = re.search(".*/smtp/(.*)$",os.environ["REQUEST_URI"])
    if m:
@@ -73,7 +86,11 @@ if __name__=="__main__":
       dane_checker.process(host,format='html')
       sys.stdout.flush()
       print("<p>Compare with <a href='https://dane.sys4.de/smtp/{}'>dane.sys4.de</a></p>".format(host))
-
+   else:
+      print ("Invalid domain name entered. No tests performed.")
+      print ("Please try again.")
+      print(bottom)
+      
    def murl(x):
       return "<a href='{}?host={}'>{}</a>".format(os.environ["SCRIPT_NAME"],x,x)
    print("""

@@ -20,6 +20,17 @@ import codecs; sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 
 # Outputs a table with the ability to have disclosure triangles.
+html_escape_table = {
+   "&": "&amp;",
+   '"': "&quot;",
+   "'": "&apos;",
+   ">": "&gt;",
+   "<": "&lt;",
+   }
+   
+def def html_escape(text):
+   """Produce entities within text."""
+   return "".join(html_escape_table.get(c,c) for c in text)
 
 def testid_html(testid,hash):
    return "<a href='lookup_test.cgi?testid={}&hash={}' target='_blank'>{}</a>".format(testid,hash,testid)
@@ -31,7 +42,7 @@ if __name__=="__main__":
 
    form = cgi.FieldStorage()
    try:
-      hash = form['hash'].value
+      hash = html_escape(form['hash'].value)
    except KeyError as e:
       print("<h3>No hash provided</h3>")
       exit(0)

@@ -24,6 +24,19 @@ import openpgpkey
 ANONYMOUS_USER="anonymous"
 ANONYMOUS_HASH="iuabfuXHVpg="
 
+#catch HTML escape chars to prevent XSS attacks
+html_escape_table = {
+   "&": "&amp;",
+   '"': "&quot;",
+   "'": "&apos;",
+   ">": "&gt;",
+   "<": "&lt;",
+   }
+   
+def def html_escape(text):
+   """Produce entities within text."""
+   return "".join(html_escape_table.get(c,c) for c in text)
+
 def testid_html(testid,hash):
    return "<a href='lookup_test.cgi?testid={}&hash={}' target='_blank'>{}</a>".format(testid,hash,testid)
 
@@ -31,7 +44,9 @@ if __name__=="__main__":
 
    form = cgi.FieldStorage()
    try:
-      email = form['email'].value
+      email = html_escape(form['email'].value)
+      if not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)",email):
+         email = ""
    except KeyError as e:
       email = ""
 
