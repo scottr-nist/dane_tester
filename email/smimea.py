@@ -13,13 +13,13 @@ import sys
 assert sys.version > '3'
 
 
-smtp_server = "mail.nist.gov"
-dns_resolver = "8.8.8.8"
+smtp_server = "127.0.0.1"
+dns_resolver = "129.6.100.203"
 #signing_key_file = "/home/slg/ca/smime.key"
 #signing_cert_file = "/home/slg/ca/smime.crt"
-SIGNING_KEY_FILE = "/home/slg/keystore/simson.garfinkel@nist.gov"
-SIGNING_CERT_FILE = "/home/slg/keystore/simson.garfinkel@nist.gov"
-my_email="simson.garfinkel@nist.gov"
+SIGNING_KEY_FILE = "/home/tester/keystore/tester@dane-test.had.dnsops.gov"
+SIGNING_CERT_FILE = "/home/tester/keystore/tester@dane-test.had.dnsops.gov"
+my_email="tester@dane-test.had.dnsops.gov"
 
 email_template="""To: %TO%
 From: %FROM%
@@ -149,8 +149,8 @@ def smimea_to_txt(T,tname):
 class MyTest(unittest.TestCase):
     def test_smimea(self):
         print(email_to_dns("hugh@example.com"))
-        assert email_to_dns("slg@had-pilot.com")== \
-            "77a3c94a8ebb95e36eb9682857da339d8ab09597d8e57eb1a4eb3f46._smimecert.had-pilot.com"
+        assert email_to_dns("tester@email-test.had.dnsops.gov")== \
+            "9bba5c53a0545e0c80184b946153c9f58387e3bd1d4ee35740f29ac2._smimecert.email-test.had.dnsops.gov"
 
 
 
@@ -169,7 +169,7 @@ if __name__=="__main__":
 
     if args.send:
         import smtplib
-        s = smtplib.SMTP("mail.nist.gov")
+        s = smtplib.SMTP("email-test.had.dnsops.gov")
         cert = get_cert_for_email(args.send)
         x509_cert = der_to_text(cert[3])
         signing_key  = get_file(SIGNING_CERT_FILE)

@@ -16,15 +16,15 @@ SMTP_PORT = 25
 # Hack to handle internal email.
 # implemented in smtp.py
 SMTP_INTERNAL_HOST = "localhost"
-SMTP_INTERNAL_DOMAIN = ".had-pilot.com"
+SMTP_INTERNAL_DOMAIN = "email-test.had.dnsops.gov"
 
 DB_HOST = "localhost"
 DB_NAME = "emaildb"
-DEFAULT_HOME = "/home/slg"
+DEFAULT_HOME = "/home/tester"
 
 home = os.getenv("HOME") if os.getenv("HOME") else DEFAULT_HOME
 cfg_file = os.path.join(home,"email.cfg")
-cfg_file = "/home/slg/email.cfg"
+cfg_file = "/home/tester/email.cfg"
 
 # Work jobs
 TASK_COMPOSE_SIMPLE_RESPONSE="compose_simple_response"

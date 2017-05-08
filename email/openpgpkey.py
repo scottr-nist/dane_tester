@@ -21,12 +21,12 @@ assert sys.version > '3'
 # http://www.spywarewarrior.com/uiuc/gpg/gpg-com-4.htm#4-2c
 
 smtp_server = "mail.nist.gov"
-dns_resolver = "8.8.8.8"
-HOMEDIR = "/home/slg/keystore"
-PUBRING_KEY_FILE = "/home/slg/keystore/pubring.gpg"
-SIGNING_KEY_FILE = "/home/slg/keystore/nistsecretkey.asc"
+dns_resolver = "129.6.100.203"
+HOMEDIR = "/home/tester/keystore"
+PUBRING_KEY_FILE = "/home/tester/keystore/pubring.gpg"
+SIGNING_KEY_FILE = "/home/tester/keystore/nistsecretkey.asc"
 GPG = "gpg"                     # GPG executable
-MY_EMAIL = "openpgpkey@dane-test.had.dnsops.gov"
+MY_EMAIL = "tester@dane-test.had.dnsops.gov"
 
 email_template="""To: %TO%
 Subject: This is a test %KIND% message

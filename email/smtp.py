@@ -60,8 +60,8 @@ if __name__=="__main__":
     parser = argparse.ArgumentParser(description="test an email")
     parser.add_argument("email",help="Specify email address to send a test message")
     args = parser.parse_args()
-    from_header = "from: slg@dane-tester.had.dnsops.gov"
-    to_headers = ["to: simsong@acm.org","to: simsong@nist.gov"]
+    from_header = "from: tester@dane-tester.had.dnsops.gov"
+    to_headers = ["to: scottr@nist.gov"]
     msg = from_header + "\n" + "\n".join(to_headers) + body
     res = sendmailWithTranscript(tester.SMTP_HOST,tester.SMTP_PORT,from_header,to_headers,msg)
     print(res.decode('utf-8'))
