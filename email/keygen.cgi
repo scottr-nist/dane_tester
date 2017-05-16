@@ -34,7 +34,7 @@ html_escape_table = {
     "<": "&lt;",
     }
     
-def def html_escape(text):
+def html_escape(text):
     """Produce entities within text."""
     return "".join(html_escape_table.get(c,c) for c in text)
 

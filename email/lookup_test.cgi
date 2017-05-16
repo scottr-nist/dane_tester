@@ -19,12 +19,25 @@ import codecs; sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 from subprocess import call,Popen,PIPE
 
+#catch HTML escape chars to prevent XSS attacks
+html_escape_table = {
+   "&": "&amp;",
+   '"': "&quot;",
+   "'": "&apos;",
+   ">": "&gt;",
+   "<": "&lt;",
+   }
+   
+def html_escape(text):
+   """Produce entities within text."""
+   return "".join(html_escape_table.get(c,c) for c in text)
+
 if __name__=="__main__":
 
    form = cgi.FieldStorage()
    try:
-      testid = form['testid'].value
-      hash   = form['hash'].value
+      testid = html_escape(form['testid'].value)
+      hash   = html_escape(form['hash'].value)
    except KeyError as e:
       email = ""
       hash  = ""

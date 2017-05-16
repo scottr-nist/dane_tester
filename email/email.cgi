@@ -15,6 +15,19 @@ assert sys.version > '3'
 # http://stackoverflow.com/questions/14860034/python-cgi-utf-8-doesnt-work
 import codecs; sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
+#catch HTML escape chars to prevent XSS attacks
+html_escape_table = {
+   "&": "&amp;",
+   '"': "&quot;",
+   "'": "&apos;",
+   ">": "&gt;",
+   "<": "&lt;",
+   }
+   
+def html_escape(text):
+   """Produce entities within text."""
+   return "".join(html_escape_table.get(c,c) for c in text)
+
 if __name__=="__main__":
    print("Content-Type: text/html")    # HTML is following
    print()                             # blank line, end of headers
@@ -26,8 +39,8 @@ if __name__=="__main__":
       T = Tester(testname="sendplain")
       t = Template(filename="sendmail.html")
       args = {}
-      email = form['email'].value
-      hash  = form['hash'].value
+      email = html_escape(form['email'].value)
+      hash  = html_escape(form['hash'].value)
       if hash == dbmaint.user_hash(T.conn,email=email):
          args['to']      = email
          args['subject'] = "A subject"
