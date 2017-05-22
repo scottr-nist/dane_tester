@@ -23,8 +23,8 @@ assert sys.version > '3'
 smtp_server = "mail.nist.gov"
 dns_resolver = "129.6.100.203"
 HOMEDIR = "/home/tester/keystore"
-PUBRING_KEY_FILE = "/home/tester/keystore/pubring.gpg"
-SIGNING_KEY_FILE = "/home/tester/keystore/nistsecretkey.asc"
+PUBRING_KEY_FILE = "/home/tester/keystore/dane-test.gpg"
+SIGNING_KEY_FILE = "/home/tester/keystore/dane-test.asc"
 GPG = "gpg"                     # GPG executable
 MY_EMAIL = "tester@dane-test.had.dnsops.gov"
 
