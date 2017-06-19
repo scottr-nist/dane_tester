@@ -74,7 +74,7 @@ def gen_pgp_rr(email,pgpKey):
     (emailpart,domainpart) = email.split('@')
     hasher = hashlib.sha256()
     hasher.update(emailpart.encode('ascii'))
-    hexpart = hasher.hexdigest()[0:28]
+    hexpart = hasher.hexdigest()[0:56]
     return "{}._openpgpkey.{}. IN OPENPGPKEY {}\n".format(hexpart,domainpart,keyblob_base64.decode('ascii')) + \
         "{}._openpgpkey.{}. IN TYPE61 \# {} {}".format(hexpart,domainpart,len(keyblob_base64),hexdump(keyblob_base64))
    
@@ -110,7 +110,7 @@ def gen_smimea_rr(usage,selector,match,email,cert):
     (emailpart,domainpart) = email.split('@')
     hasher = hashlib.sha256()
     hasher.update(emailpart.encode('ascii'))
-    hexpart = hasher.hexdigest()[0:28]
+    hexpart = hasher.hexdigest()[0:56]
     ret = "{}._smimecert.{}. TLSA {} {} {} {}".format(hexpart,domainpart,usage,selector,match,hexdump(comp_data))
     print("ret=",ret,file=sys.stderr)
     return ret

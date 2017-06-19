@@ -48,7 +48,7 @@ if __name__=="__main__":
       
       import re
       if not re.match(r"[^@]+@[^@]+\.[^@]+",email):
-         print("Please provide a valid email address");
+         print("<p>Please provide a valid email address</p>");
          exit(0)
 
       hash  = html_escape(form['hash'].value)

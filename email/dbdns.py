@@ -25,7 +25,7 @@ import dns.resolver
 import dns.rdatatype
 import dns.zone
 
-nsaddr = "8.8.8.8"              # default nameserver address
+nsaddr = "129.6.100.203"              # default nameserver address
 
 
 class Dbdns:

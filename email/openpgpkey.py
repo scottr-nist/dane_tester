@@ -75,7 +75,7 @@ def email_to_dns(email):
     """Given an email address, return the OPENPGPKEY encoding."""
     import hashlib
     (box,domain) = email.split("@")
-    dns = hashlib.sha256(box.encode("utf-8")).hexdigest()[0:28*2] + "._openpgpkey." + domain
+    dns = hashlib.sha256(box.encode("utf-8")).hexdigest()[0:56] + "._openpgpkey." + domain
     if dns.endswith("."):
         dns = dns[:-1]
     return dns
@@ -84,7 +84,7 @@ def get_pubkey(T,email):
     """Returns the DNS cert for email"""
     import re,codecs
     try:
-        response = dbdns.query(T,email_to_dns(email), "TYPE61")
+        response = dbdns.query(T,email_to_dns(email), "OPENPGPKEY")
     except dns.resolver.NXDOMAIN:
         return None
     except dns.resolver.Timeout:

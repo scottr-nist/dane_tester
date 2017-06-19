@@ -49,7 +49,7 @@ def get_file(fname):
 def get_cert_for_email(email):
     """Returns the DNS cert for email"""
     import re,codecs
-    msg = dns.message.make_query(dns.name.from_text(email_to_dns(email)), "TYPE53")
+    msg = dns.message.make_query(dns.name.from_text(email_to_dns(email)), "SMIMEA")
     # Try UDP first
     response = dns.query.udp(msg,dns_resolver)
     if not response.answer:
@@ -76,7 +76,7 @@ def get_certdb(T,email):
     """Returns the DNS cert for email"""
     import re,codecs
     try:
-        response = dbdns.query(T,email_to_dns(email), "TYPE53")
+        response = dbdns.query(T,email_to_dns(email), "SMIMEA")
     except dns.resolver.NXDOMAIN:
         return None
     except dns.resolver.Timeout:
