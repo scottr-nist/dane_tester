@@ -7,7 +7,8 @@
 #
 import pytest,unittest
 import dns
-import dns,dns.resolver,dns.query,dns.zone,dns.message
+import dns.resolver
+import dns.rdtypes
 import dbdns
 import tempfile
 import sys
@@ -90,17 +91,21 @@ def get_pubkey(T,email):
     except dns.resolver.Timeout:
         return None
 
-
+    for rrSet in reply.answer:
+        if (rrSet.rdtype == dns.rdatatype.OPENPGPKEY):
+            pgpRR = rrSet[0]
+            return(pgpRR.usage, pgpRR.selector, pgpRR.mtype, binascii.hexify(pgpRR.cert))
+            
     # response.answer[0] is in wire format. 
     # I've been unable to parse it, so I convert it to RFC 3597-format text,
     # which I then parse. It's not that slow.
 
-    data = response.answer[0][0].to_text()
-    r = re.compile(r"\\# (\d+) (.*)")
-    m = r.search(data)
-    if m:
-        hexdata = codecs.decode(m.group(2).replace(" ",""),"hex")
-        return hexdata
+    #data = response.answer[0][0].to_text()
+    #r = re.compile(r"\\# (\d+) (.*)")
+    #m = r.search(data)
+    #if m:
+    #    hexdata = codecs.decode(m.group(2).replace(" ",""),"hex")
+    #    return hexdata
 
 
 def import_key(tempdir,kfile):

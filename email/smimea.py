@@ -5,7 +5,9 @@
 #
 import pytest,unittest
 import dns
-import dns,dns.resolver,dns.query,dns.zone,dns.message
+import binascii
+import dns.resolver
+import dns.rdtypes
 import dbdns
 from subprocess import Popen,PIPE
 import sys
@@ -38,7 +40,7 @@ def email_to_dns(email):
     """Given an email address, return the SMIMEA encoding."""
     import hashlib
     (box,domain) = email.split("@")
-    dns = hashlib.sha256(box.encode("utf-8")).hexdigest()[0:28*2] + "._smimecert." + domain
+    dns = hashlib.sha256(box.encode("utf-8")).hexdigest()[0:56] + "._smimecert." + domain
     if dns.endswith("."):
         dns = dns[:-1]
     return dns
@@ -60,16 +62,21 @@ def get_cert_for_email(email):
     # I've been unable to parse it, so I convert it to RFC 3597-format text,
     # which I then parse. It's not that slow.
 
-    r = re.compile(r"\\# (\d+) (.*)")
-    data = response.answer[0][0].to_text()
-    m = r.search(data)
-    if m:
-        hexdata = codecs.decode(m.group(2).replace(" ",""),"hex")
-        v0 = hexdata[0]
-        v1 = hexdata[1]
-        v2 = hexdata[2]
-        der_encoded_cert = hexdata[3:]
-        return(v0,v1,v2,der_encoded_cert)
+    for rrSet in reply.answer:
+        if (rrSet.rdtype == dns.rdatatype.SMIMEA):
+            smimeaRR = rrSet[0]
+            return(smimeaRR.usage, smimeaRR.selector, smimeaRR.mtype, smimeaRR.cert.encode('hex_codec'))
+
+    #r = re.compile(r"\\# (\d+) (.*)")
+    #data = response.answer[0][0].to_text()
+    #m = r.search(data)
+    #if m:
+    #    hexdata = codecs.decode(m.group(2).replace(" ",""),"hex")
+    #    v0 = hexdata[0]
+    #    v1 = hexdata[1]
+    #    v2 = hexdata[2]
+    #    der_encoded_cert = hexdata[3:]
+    #    return(v0,v1,v2,der_encoded_cert)
 
 
 def get_certdb(T,email):
@@ -82,21 +89,27 @@ def get_certdb(T,email):
     except dns.resolver.Timeout:
         return None
 
+    for rrSet in response.answer:
+        if (rrSet.rdtype == dns.rdatatype.SMIMEA):
+            return rrSet[0]
+                
+    return None
+    
     # response.answer[0] is in wire format. 
     # I've been unable to parse it, so I convert it to RFC 3597-format text,
     # which I then parse. It's not that slow.
 
-    r = re.compile(r"\\# (\d+) (.*)")
-    data = response.answer[0][0].to_text()     # this was previously msg.response.answer
+    #r = re.compile(r"\\# (\d+) (.*)")
+    #data = response.answer[0][0].to_text()     # this was previously msg.response.answer
 
-    m = r.search(data)
-    if m:
-        hexdata = codecs.decode(m.group(2).replace(" ",""),"hex")
-        v0 = hexdata[0]
-        v1 = hexdata[1]
-        v2 = hexdata[2]
-        der_encoded_cert = hexdata[3:]
-        return(v0,v1,v2,der_encoded_cert)
+    #m = r.search(data)
+    #if m:
+    #    hexdata = codecs.decode(m.group(2).replace(" ",""),"hex")
+    #    v0 = hexdata[0]
+    #    v1 = hexdata[1]
+     #   v2 = hexdata[2]
+    #    der_encoded_cert = hexdata[3:]
+    #    return(v0,v1,v2,der_encoded_cert)
 
 
 def cert_to_txt(cert):
@@ -140,9 +153,10 @@ def smime_crypto(msg,signing_key=None,signing_cert=None,
     
 
 def smimea_to_txt(T,tname):
-    cert = get_certdb(T,tname)
-    if cert:
-        return "DANE Certificate Usage: {} {} {}\n{}".format(cert[0],cert[1],cert[2],cert_to_txt(cert[3]))
+    certRR = get_certdb(T,tname)
+    owner = email_to_dns(tname)
+    if certRR:
+        return owner + " IN SMIMEA " + certRR.to_text().format()
     return None
 
 

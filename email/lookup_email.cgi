@@ -68,12 +68,12 @@ if __name__=="__main__":
    else:
       print("<p>No SMIMEA record for {}</p>".format(email))
 
-   print("<h3>OPENPGPA Lookup for <tt>{}</tt></h3>".format(email))
+   print("<h3>OPENPGPKEY Lookup for <tt>{}</tt></h3>".format(email))
    data = openpgpkey.openpgpkey_to_txt(T,email)
    if data:
       print("<pre>{}</pre>".format(data))
    else:
-      print("<p>No OPENPGPA record for {}</p>".format(email))
+      print("<p>No OPENPGPKEY record for {}</p>".format(email))
 
    
    print("<h3>Tester Status</h3>")

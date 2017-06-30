@@ -17,13 +17,9 @@ import pickle
 import dbdns
 import pymysql
 
-import dns.name
-import dns.query
-import dns.dnssec
-import dns.message
+import dns
 import dns.resolver
-import dns.rdatatype
-import dns.zone
+import dns.rdtypes
 
 nsaddr = "129.6.100.203"              # default nameserver address
 
