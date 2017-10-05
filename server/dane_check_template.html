@@ -11,13 +11,13 @@
     <title>DANE Server Tester</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="/bootstrap/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="../bootstrap/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="/jumbotron.css" rel="stylesheet">
+    <link href="../jumbotron.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -29,39 +29,30 @@
 
   <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="../"><img src="../nist_logo_reverse.svg" height=12x> DANE-TEST.HAD.DNSOPS.GOV</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <!--
-          <form class="navbar-form navbar-right">
-            <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </form> -->
-
-        </div><!--/.navbar-collapse -->
-      </div>
-    </nav>
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+              <a class="navbar-brand" href="#"><img src="../nist_logo_reverse.svg" height=12px> DANE-TEST.HAD.DNSOPS.GOV</a>
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Other Tools</a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="https://monitor.dnsops.gov/">HAD Monitor</a>
+                    <a class="dropdown-item" href="https://email-test.had.dnsops.gov/">Email Test Tool</a>
+                  </div>
+                </li>
+              </ul>
+          </div>
+          <a class="navbar-brand" href="https://www.nist.gov/itl/"><img src="../ITL-Logo-RGB.jpg" hight=80px width=120px align=right></a>
+        </nav>
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
+    <div class="jumbotron" style="background-color:#4098e5;">
       <div class="container">
         <h1>Server Tester</h1>
-        <!-- <p><a class="btn btn-primary btn-lg" href="#"
-        role="button">Learn more »</a></p> -->
+       
       </div>
     </div>
 
@@ -73,10 +64,18 @@
         </div>
       </div>
       <footer>
-        <p id='author'> <a href='https://www.nist.gov/itl/antd/'>Advanced
-        Network Technologies
-        Division</a>, <a href='https://www.nist.gov/'>National
-            Institute of Standards and Technology</a>.  </p>
+        <HR>
+        <p><I>Questions
+        or comments should be sent to <A HREF="scott.rose@nist.gov">the
+        HAD Test Tool admin</A></I>
+        </P>
+        <P>NIST
+        is an agency of the <A HREF="http://www.doc.gov/">U.S.
+        Department of Commerce.</A></p>
+        <p><a href="http://www.nist.gov/public_affairs/privacy.cfm">Privacy policy / security notice / accessibility statement</a> / <a href="http://www.nist.gov/public_affairs/disclaimer.cfm">Disclaimer</a> / 
+        <a href="http://www.nist.gov/director/foia/">Freedom of Information Act (FOIA)</a> / <a href="http://www.nist.gov/public_affairs/envpolicy.cfm">Environmental Policy Statement</a> / 
+        <a href="http://www.nist.gov/director/civil/nofearpolicy.cfm">No Fear Act Policy</a> / <a href="http://www.nist.gov/director/quality_standards.cfm">NIST Information Quality Standards</a> / 
+        <a href="http://www.nist.gov/director/scientific_integrity_summary.cfm">Scientific Integrity Summary</a></p>
       </footer>
     </div> <!-- /container -->
 
@@ -84,10 +83,10 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../email/bootstrap/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../bootstrap/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="/bootstrap/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="../bootstrap/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
     

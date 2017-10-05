@@ -127,11 +127,12 @@ if __name__=="__main__":
             exit(0)
 
         print("Enter email:"); sys.stdout.flush()
-        email = sys.stdin.readline()
+        email = html_escape(sys.stdin.readline())
+        
         print("Enter PGP key:"); sys.stdout.flush()
         pgpKey = ""
         while True:
-            line = sys.stdin.readline()
+            line = html_escape(sys.stdin.readline())
             if not line: break
             pgpKey += line
         email = email.strip()
@@ -169,8 +170,8 @@ if __name__=="__main__":
             print("Please provide a Pgp Public Key address")
             exit(0)
 
-        email   = form['email'].value.strip()
-        pgpKey  = form['pgpKey'].value.strip() + "\n"
+        email   = html_escape(form['email'].value.strip())
+        pgpKey  = html_escape(form['pgpKey'].value.strip()) + "\n"
         res     = gen_pgp_rr(email,pgpKey)
 
     lines = res.split("\n")
